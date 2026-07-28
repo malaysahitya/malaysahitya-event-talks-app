@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BigQuery Release Notes | Live Updates & Tweet Composer</title>
+  <meta name="description" content="Stay up to date with Google Cloud BigQuery release notes. Browse features, changes, deprecations, and tweet updates directly.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="brand-wrapper">
+        <div class="bq-logo">
+          <i class="fa-solid fa-database fa-lg"></i>
+        </div>
+        <div>
+          <h1 class="brand-title">BigQuery Release Notes</h1>
+          <p class="brand-subtitle">Google Cloud Feed Hub & Tweet Publisher</p>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="live-badge">
+          <span class="pulse-dot"></span>
+          Live Feed
+        </div>
+        
+        <!-- Refresh Button with Spinner -->
+        <button id="refresh-btn" class="btn-refresh" title="Fetch fresh release notes from Google Cloud feed">
+          <i class="fa-solid fa-arrows-rotate refresh-icon"></i>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+
+    <!-- Search & Filters Header Box -->
+    <section class="controls-card">
+      <div class="search-filter-row">
+        <!-- Instant Search -->
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="search-input" class="search-input" placeholder="Search features, Iceberg, ODBC, SQL syntax, APIs...">
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="category-chips" id="category-chips">
+          <button class="chip active" data-category="ALL">All Updates</button>
+          <button class="chip" data-category="Feature">Features</button>
+          <button class="chip" data-category="Change">Changes</button>
+          <button class="chip" data-category="Deprecation">Deprecations</button>
+          <button class="chip" data-category="General">General</button>
+        </div>
+      </div>
+
+      <!-- Feed Metrics & Stats -->
+      <div class="stats-bar">
+        <div class="stats-count">
+          Showing <strong id="visible-count">0</strong> release notes across <strong id="total-entries-count">0</strong> entry dates
+        </div>
+        <div class="last-fetched">
+          <i class="fa-regular fa-clock"></i>
+          Last updated: <span id="fetched-time">Loading...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feed Cards Container -->
+    <section id="feed-container" class="feed-container">
+      <!-- Loading Skeleton Cards -->
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+    </section>
+
+  </main>
+
+  <!-- Text Selection Floating Popover -->
+  <div id="selection-popover">
+    <button id="btn-popover-tweet" class="btn-popover-tweet">
+      <i class="fa-brands fa-x-twitter"></i> Tweet Selection
+    </button>
+  </div>
+
+  <!-- Interactive Tweet Modal -->
+  <div id="tweet-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-brands fa-x-twitter" style="color: var(--accent-twitter);"></i>
+          <span>Compose Tweet</span>
+        </div>
+        <button id="modal-close" class="modal-close" title="Close Modal">
+          <i class="fa-solid fa-xmark fa-lg"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <textarea id="tweet-textarea" class="tweet-textarea" placeholder="What's happening with BigQuery?"></textarea>
+        
+        <div class="hashtag-bar">
+          <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center;">Add tags:</span>
+          <button class="btn-tag" data-tag="#BigQuery">+ #BigQuery</button>
+          <button class="btn-tag" data-tag="#GoogleCloud">+ #GoogleCloud</button>
+          <button class="btn-tag" data-tag="#GCP">+ #GCP</button>
+          <button class="btn-tag" data-tag="#DataEngineering">+ #DataEngineering</button>
+          <button class="btn-tag" data-tag="#SQL">+ #SQL</button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div id="char-counter" class="char-counter">0 / 280</div>
+        <div class="modal-actions">
+          <button id="btn-copy-tweet" class="btn-secondary">
+            <i class="fa-regular fa-copy"></i> Copy Text
+          </button>
+          <button id="btn-post-tweet" class="btn-tweet-post">
+            <i class="fa-brands fa-x-twitter"></i> Post to X / Twitter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Custom JavaScript -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
